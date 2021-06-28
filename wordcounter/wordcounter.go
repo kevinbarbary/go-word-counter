@@ -48,9 +48,13 @@ func ErrorResponse(w http.ResponseWriter, err error) {
 	w.Write([]byte(err.Error()))
 }
 
+func (d *dictionaryItem) isEmpty() bool {
+	return d == nil || d.Word == ""
+}
+
 // counts returns a map of all words and their counts in the word store
 func (d *dictionaryItem) counts() map[string]int {
-	if d == nil || d.Word == "" {
+	if d.isEmpty() {
 		return nil
 	}
 
