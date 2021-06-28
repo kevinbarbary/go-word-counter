@@ -74,7 +74,7 @@ func (d *dictionaryItem) counts() map[string]int {
 }
 
 // GetCounts returns words in the word store with their counts as JSON to the client
-func GetCounts(w http.ResponseWriter, r *http.Request) {
+func GetCounts(w http.ResponseWriter) {
 	response(w, dictionary.counts())
 }
 

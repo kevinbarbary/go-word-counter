@@ -25,7 +25,7 @@ func main() {
 // counts handles GET /counts requests
 func counts(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-		wordcounter.GetCounts(w, r)
+		wordcounter.GetCounts(w)
 		return
 	}
 	error(w, fmt.Sprint("Only GET requests accepted at endpoint: ", r.URL.Path))
