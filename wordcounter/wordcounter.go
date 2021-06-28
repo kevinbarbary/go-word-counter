@@ -1,19 +1,19 @@
 package wordcounter
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"strings"
 )
 
 // dictionaryItem is an item in the word store
 type dictionaryItem struct {
-	Word  string
-	Count int
+	Word     string
+	Count    int
 	Previous *dictionaryItem
-	Next *dictionaryItem
+	Next     *dictionaryItem
 }
 
 // dictionary is the word store
@@ -85,15 +85,15 @@ func ProcessInput(w http.ResponseWriter, r *http.Request) {
 
 	// step through characters in the body building up words and adding them to the word store
 	count := 0
-	builder := strings.Builder{}
+	var b bytes.Buffer
 	for _, char := range body {
 		if (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') {
-			builder.WriteString(string(char))
+			b.WriteString(string(char))
 		} else {
-			if word := builder.String(); word != "" {
+			if word := b.String(); word != "" {
 				dictionary.add(word)
 				count++
-				builder.Reset()
+				b.Reset()
 			}
 		}
 	}
