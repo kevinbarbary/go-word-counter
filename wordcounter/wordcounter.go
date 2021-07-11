@@ -21,6 +21,11 @@ var dictionary *dictionaryItem
 
 // init initialises the word store
 func init() {
+	reset()
+}
+
+// reset resets the word store to an empty state
+func reset() {
 	dictionary = &dictionaryItem{}
 }
 

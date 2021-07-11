@@ -5,14 +5,14 @@ import (
 )
 
 func TestIsEmptyWhenEmpty(t *testing.T) {
-	NewWordStore()
+	t.Cleanup(reset)
 	if !dictionary.isEmpty() {
 		t.Errorf("Word store is empty but isEmpty returned false")
 	}
 }
 
 func TestIsEmptyWhenNotEmpty(t *testing.T) {
-	NewWordStore()
+	t.Cleanup(reset)
 	dictionary.add("test")
 	if dictionary.isEmpty() {
 		t.Errorf("Word store is not empty but isEmpty returned true")
@@ -20,7 +20,7 @@ func TestIsEmptyWhenNotEmpty(t *testing.T) {
 }
 
 func TestCounts1(t *testing.T) {
-	NewWordStore()
+	t.Cleanup(reset)
 	dictionary.add("test")
 	ans := dictionary.counts()
 	if ans["test"] != 1 {
@@ -29,7 +29,7 @@ func TestCounts1(t *testing.T) {
 }
 
 func TestCounts2(t *testing.T) {
-	NewWordStore()
+	t.Cleanup(reset)
 	dictionary.add("test")
 	dictionary.add("test")
 	ans := dictionary.counts()
@@ -39,7 +39,7 @@ func TestCounts2(t *testing.T) {
 }
 
 func TestCounts3(t *testing.T) {
-	NewWordStore()
+	t.Cleanup(reset)
 	dictionary.add("test")
 	dictionary.add("thing")
 	dictionary.add("thing")
