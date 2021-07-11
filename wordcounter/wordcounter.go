@@ -1,10 +1,9 @@
 package wordcounter
 
 import (
-	"bytes"
+	"bufio"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 )
 
@@ -85,29 +84,25 @@ func GetCounts(w http.ResponseWriter) {
 
 // ProcessInput takes the POST payload and processes it into the word store
 func ProcessInput(w http.ResponseWriter, r *http.Request) {
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		ErrorResponse(w, err)
-		return
-	}
-	defer r.Body.Close()
-
-	// step through characters in the body building up words and adding them to the word store
 	count := 0
-	var b bytes.Buffer
-	for _, char := range body {
-		if (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') {
-			b.WriteString(string(char))
-		} else {
-			if word := b.String(); word != "" {
-				dictionary.add(word)
-				count++
-				b.Reset()
-			}
-		}
+	input := bufio.NewScanner(r.Body)
+	input.Split(bufio.ScanWords)
+	for input.Scan() {
+		dictionary.add(rtrim(input.Text()))
+		count++
 	}
 
 	response(w, fmt.Sprint("Words processed: ", count))
+}
+
+// rtrim removes a non-alpha character from the end of the word, e.g. punctuation (assumes max one non-alpha character)
+func rtrim(word string) string {
+	last := len(word) - 1
+	char := word[last]
+	if (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') {
+		return word
+	}
+	return word[:last]
 }
 
 // add implements a binary tree for the word store

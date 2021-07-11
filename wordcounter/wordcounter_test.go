@@ -4,6 +4,20 @@ import (
 	"testing"
 )
 
+func TestRtrimWithout(t *testing.T) {
+	ans := rtrim("test")
+	if ans != "test" {
+		t.Errorf("got = '%s', want 'test'", ans)
+	}
+}
+
+func TestRtrimWith(t *testing.T) {
+	ans := rtrim("test.")
+	if ans != "test" {
+		t.Errorf("got = '%s', want 'test'", ans)
+	}
+}
+
 func TestIsEmptyWhenEmpty(t *testing.T) {
 	t.Cleanup(reset)
 	if !dictionary.isEmpty() {
