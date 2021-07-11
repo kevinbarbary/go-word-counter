@@ -19,8 +19,8 @@ type dictionaryItem struct {
 // dictionary is the word store
 var dictionary *dictionaryItem
 
-// NewWordStore initialises the word store
-func NewWordStore() {
+// init initialises the word store
+func init() {
 	dictionary = &dictionaryItem{}
 }
 

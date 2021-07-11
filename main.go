@@ -8,11 +8,8 @@ import (
 	"wordcounter/wordcounter"
 )
 
-// main initialises the word store and begins a net/http server on port 9001
+// main begins a net/http server on port 9001
 func main() {
-	// initialise the word store
-	wordcounter.NewWordStore()
-
 	// begin a net/http server on port 9001
 	http.HandleFunc("/counts", counts)
 	http.HandleFunc("/text", text)
